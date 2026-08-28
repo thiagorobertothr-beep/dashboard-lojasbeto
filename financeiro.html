@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lojas Beto - Gestão Financeira</title>
+    <title>Lojas Beto - Gestão Financeira com Gemini AI</title>
     <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,6 +16,8 @@
             --beto-blue-light: #e8f0fe;
             --beto-yellow: #FFD200;
             --beto-yellow-hover: #e6bd00;
+            --gemini-gradient: linear-gradient(135deg, #1ba0e2 0%, #9b72cb 50%, #d96570 100%);
+            --gemini-glow: rgba(155, 114, 203, 0.25);
             --bg-body: #f4f6fa;
             --bg-card: #ffffff;
             --text-main: #1e293b;
@@ -61,7 +63,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 0 12px 28px 12px;
+            padding: 0 12px 24px 12px;
             border-bottom: 1px solid rgba(255,255,255,0.12);
         }
 
@@ -93,7 +95,7 @@
         }
 
         .nav-menu {
-            margin-top: 24px;
+            margin-top: 20px;
             list-style: none;
             display: flex;
             flex-direction: column;
@@ -105,11 +107,11 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 12px 16px;
+            padding: 11px 16px;
             color: rgba(255,255,255,0.75);
             text-decoration: none;
             border-radius: var(--radius-md);
-            font-size: 0.92rem;
+            font-size: 0.90rem;
             font-weight: 500;
             transition: all 0.2s ease;
         }
@@ -126,8 +128,76 @@
             box-shadow: 0 4px 12px rgba(255, 210, 0, 0.35);
         }
 
+        /* Sidebar Gemini AI Card */
+        .sidebar-ai-box {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-ai-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gemini-gradient);
+        }
+
+        .ai-badge-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .ai-sparkle {
+            background: var(--gemini-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1rem;
+        }
+
+        .sidebar-ai-box p {
+            font-size: 0.73rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.35;
+            margin-bottom: 10px;
+        }
+
+        .btn-ai-ask {
+            width: 100%;
+            padding: 7px 10px;
+            background: var(--gemini-gradient);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px var(--gemini-glow);
+            transition: opacity 0.2s;
+        }
+
+        .btn-ai-ask:hover {
+            opacity: 0.92;
+        }
+
         .sidebar-footer {
-            padding-top: 16px;
+            padding-top: 14px;
             border-top: 1px solid rgba(255,255,255,0.12);
             font-size: 0.8rem;
             color: rgba(255,255,255,0.6);
@@ -160,7 +230,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .page-title h1 {
@@ -177,7 +247,46 @@
 
         .header-actions {
             display: flex;
+            align-items: center;
             gap: 12px;
+        }
+
+        /* Gemini Header Pill */
+        .gemini-status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: #ffffff;
+            border: 1px solid rgba(155, 114, 203, 0.4);
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(155, 114, 203, 0.12);
+            color: #334155;
+        }
+
+        .gemini-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 6px #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .gemini-gradient-text {
+            background: var(--gemini-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: 0.3px;
         }
 
         .btn {
@@ -213,17 +322,70 @@
             box-shadow: 0 4px 12px rgba(255, 210, 0, 0.35);
         }
 
-        .period-badge {
-            background: #ffffff;
-            padding: 8px 14px;
+        /* AI Smart Banner */
+        .ai-banner {
+            background: linear-gradient(90deg, #ffffff 0%, #f7f9fe 100%);
+            border: 1px solid #e0e7ff;
+            border-left: 5px solid #9b72cb;
+            border-radius: var(--radius-md);
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .ai-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .ai-banner-icon {
+            width: 40px;
+            height: 40px;
             border-radius: 10px;
-            border: 1px solid var(--border);
-            font-size: 0.85rem;
-            font-weight: 600;
+            background: var(--gemini-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .ai-banner-text h4 {
+            font-size: 0.92rem;
+            font-weight: 700;
             color: var(--beto-blue);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+        }
+
+        .ai-banner-text p {
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .ai-banner-action {
+            background: #ffffff;
+            border: 1px solid #d8b4fe;
+            color: #7e22ce;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ai-banner-action:hover {
+            background: #faf5ff;
+            box-shadow: 0 2px 8px rgba(126, 34, 206, 0.15);
         }
 
         /* Stat Cards */
@@ -448,22 +610,7 @@
         .status-pago { background: #dcfce7; color: #15803d; }
         .status-recebido { background: #dbeafe; color: #1d4ed8; }
 
-        .action-icon-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .action-icon-btn:hover {
-            color: var(--beto-blue);
-            background: var(--border);
-        }
-
-        /* Modal simple */
+        /* Modal Form */
         .modal {
             display: none;
             position: fixed;
@@ -555,11 +702,22 @@
             </li>
         </ul>
 
+        <!-- Gemini AI Sidebar Widget -->
+        <div class="sidebar-ai-box">
+            <div class="ai-badge-header">
+                <i class="fa-solid fa-wand-magic-sparkles ai-sparkle"></i>
+                <span>GEMINI AI Integrado</span>
+            </div>
+            <p>Análise preditiva de inadimplência e projeção de caixa ativa.</p>
+            <button class="btn-ai-ask" onclick="openGeminiInsight()">
+                <i class="fa-solid fa-bolt"></i> Consultar Insights
+            </button>
+        </div>
+
         <div class="sidebar-footer">
             <div class="user-avatar">LB</div>
             <div>
                 <strong style="color: #fff; display: block;">Financeiro Matriz</strong>
-                
             </div>
         </div>
     </aside>
@@ -573,9 +731,13 @@
                 <p>Acompanhamento de fluxo de pagamentos e recebimentos (24/Ago - 30/Ago)</p>
             </div>
             <div class="header-actions">
-                <div class="period-badge">
-                    <i class="fa-regular fa-calendar"></i> Semana 35 • Agosto 2026
+                <!-- Gemini AI Badge Integrado no Topo -->
+                <div class="gemini-status-pill">
+                    <span class="gemini-dot"></span>
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: #9b72cb;"></i>
+                    <span class="gemini-gradient-text">GEMINI AI</span> Conectado
                 </div>
+
                 <button class="btn btn-yellow" onclick="openModal('receber')">
                     <i class="fa-solid fa-plus"></i> Novo Recebimento
                 </button>
@@ -584,6 +746,24 @@
                 </button>
             </div>
         </header>
+
+        <!-- Gemini AI Smart Banner Insight -->
+        <div class="ai-banner">
+            <div class="ai-banner-content">
+                <div class="ai-banner-icon">
+                    <i class="fa-solid fa-microchip-ai" style="color: #9b72cb;"></i>
+                </div>
+                <div class="ai-banner-text">
+                    <h4>
+                        <span class="gemini-gradient-text">GEMINI AI INSIGHT</span> • Sugestão Financeira para a Semana
+                    </h4>
+                    <p>Identificado superávit de R$ 55.430,00 na sexta-feira. Recomenda-se antecipar a liquidação da fatura Mueller para obter 3,5% de desconto à vista.</p>
+                </div>
+            </div>
+            <button class="ai-banner-action" onclick="alert('Gemini AI: Simulando antecipação com desconto de R$ 435,75 no boleto Mueller.')">
+                <i class="fa-solid fa-sparkles"></i> Simular Antecipação
+            </button>
+        </div>
 
         <!-- KPI Cards -->
         <section class="stats-grid">
@@ -629,7 +809,7 @@
                 </div>
                 <div class="stat-value">R$ 18.230,00</div>
                 <div class="stat-meta">
-                    <span style="color: #b45309; font-weight: 600;">3 boletos de fornecedores</span>
+                    <span style="color: #b45309; font-weight: 600;">2 boletos prioritários</span>
                 </div>
             </div>
         </section>
@@ -685,7 +865,7 @@
             </div>
         </section>
 
-        <!-- Detailed Lists (Payables vs Receivables) -->
+        <!-- Detailed Tables (Payables vs Receivables) -->
         <section class="tables-grid">
             <!-- Contas a Pagar na Semana -->
             <div class="card">
@@ -817,7 +997,7 @@
         </section>
     </main>
 
-    <!-- Modal Demonstration -->
+    <!-- Modal Form -->
     <div class="modal" id="entryModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -913,7 +1093,6 @@
             }
         });
 
-        // Modal triggers
         function openModal(type) {
             const title = document.getElementById('modalTitle');
             if (type === 'pagar') {
@@ -933,6 +1112,10 @@
         function saveSimulatedEntry() {
             alert('Lançamento registrado com sucesso no painel de demonstração!');
             closeModal();
+        }
+
+        function openGeminiInsight() {
+            alert('✨ GEMINI AI: Análise preditiva em tempo real concluída com sucesso.');
         }
     </script>
 </body>
