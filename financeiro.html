@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lojas Beto - Gestão Financeira</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --beto-blue: #0A3C91;
+            --beto-blue-dark: #072b6b;
+            --beto-blue-light: #e8f0fe;
+            --beto-yellow: #FFD200;
+            --beto-yellow-hover: #e6bd00;
+            --bg-body: #f4f6fa;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border: #e2e8f0;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 260px;
+            background: linear-gradient(180deg, var(--beto-blue) 0%, var(--beto-blue-dark) 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px 28px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .brand-logo-badge {
+            background: var(--beto-yellow);
+            color: var(--beto-blue);
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 6px 10px;
+            border-radius: 8px;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            text-align: center;
+        }
+
+        .brand-text h2 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-text span {
+            font-size: 0.75rem;
+            color: var(--beto-yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            margin-top: 24px;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-grow: 1;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item a:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active a {
+            background: var(--beto-yellow);
+            color: var(--beto-blue);
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(255, 210, 0, 0.35);
+        }
+
+        .sidebar-footer {
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--beto-yellow);
+            color: var(--beto-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 28px 36px;
+        }
+
+        /* Top Header */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--beto-blue);
+        }
+
+        .page-title p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--beto-blue);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--beto-blue-dark);
+            box-shadow: 0 4px 12px rgba(10, 60, 145, 0.25);
+        }
+
+        .btn-yellow {
+            background-color: var(--beto-yellow);
+            color: var(--beto-blue);
+        }
+
+        .btn-yellow:hover {
+            background-color: var(--beto-yellow-hover);
+            box-shadow: 0 4px 12px rgba(255, 210, 0, 0.35);
+        }
+
+        .period-badge {
+            background: #ffffff;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--beto-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Stat Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        .stat-card.payable::before { background-color: var(--danger); }
+        .stat-card.receivable::before { background-color: var(--success); }
+        .stat-card.balance::before { background-color: var(--beto-blue); }
+        .stat-card.pending::before { background-color: var(--warning); }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .stat-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .stat-card.payable .stat-icon { background: #fee2e2; color: var(--danger); }
+        .stat-card.receivable .stat-icon { background: #dcfce7; color: var(--success); }
+        .stat-card.balance .stat-icon { background: var(--beto-blue-light); color: var(--beto-blue); }
+        .stat-card.pending .stat-icon { background: #fef3c7; color: var(--warning); }
+
+        .stat-value {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .stat-meta {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-trend {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.72rem;
+        }
+        .trend-up { background: #dcfce7; color: #15803d; }
+        .trend-down { background: #fee2e2; color: #b91c1c; }
+
+        /* Dashboard Charts & Insights */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--beto-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+
+        /* Weekly Projection Mini Cards */
+        .daily-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .daily-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .day-label {
+            font-weight: 600;
+            font-size: 0.86rem;
+            color: var(--beto-blue);
+        }
+
+        .day-flow {
+            text-align: right;
+            font-size: 0.82rem;
+        }
+
+        .flow-rec { color: var(--success); font-weight: 700; }
+        .flow-pay { color: var(--danger); font-weight: 700; }
+
+        /* Tables Grid */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .table-custom th {
+            text-align: left;
+            padding: 10px 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+        }
+
+        .table-custom td {
+            padding: 12px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            color: var(--text-main);
+        }
+
+        .table-custom tr:last-child td {
+            border-bottom: none;
+        }
+
+        .entity-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .entity-name {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .entity-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .tag-status {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status-vence-hoje { background: #fee2e2; color: #b91c1c; }
+        .status-aberto { background: #fef3c7; color: #b45309; }
+        .status-pago { background: #dcfce7; color: #15803d; }
+        .status-recebido { background: #dbeafe; color: #1d4ed8; }
+
+        .action-icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .action-icon-btn:hover {
+            color: var(--beto-blue);
+            background: var(--border);
+        }
+
+        /* Modal simple */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 24px;
+            border-radius: 16px;
+            width: 440px;
+            max-width: 90%;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .modal-header h3 {
+            color: var(--beto-blue);
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.88rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside>
+        <div class="brand">
+            <div class="brand-logo-badge">LOJAS<br>BETO</div>
+            <div class="brand-text">
+                <h2>Lojas Beto</h2>
+                <span>Módulo Financeiro</span>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item active">
+                <a href="#"><i class="fa-solid fa-chart-pie"></i> Visão Geral</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fa-solid fa-arrow-trend-down"></i> Contas a Pagar</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fa-solid fa-arrow-trend-up"></i> Contas a Receber</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fa-solid fa-money-bill-transfer"></i> Fluxo de Caixa</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fa-solid fa-file-invoice-dollar"></i> Conciliação Bancária</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fa-solid fa-store"></i> Filiais / Lojas</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fa-solid fa-chart-line"></i> Relatórios DRE</a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-avatar">LB</div>
+            <div>
+                <strong style="color: #fff; display: block;">Financeiro Matriz</strong>
+                
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Header -->
+        <header class="top-header">
+            <div class="page-title">
+                <h1>Painel Financeiro Semanal</h1>
+                <p>Acompanhamento de fluxo de pagamentos e recebimentos (24/Ago - 30/Ago)</p>
+            </div>
+            <div class="header-actions">
+                <div class="period-badge">
+                    <i class="fa-regular fa-calendar"></i> Semana 35 • Agosto 2026
+                </div>
+                <button class="btn btn-yellow" onclick="openModal('receber')">
+                    <i class="fa-solid fa-plus"></i> Novo Recebimento
+                </button>
+                <button class="btn btn-primary" onclick="openModal('pagar')">
+                    <i class="fa-solid fa-plus"></i> Nova Conta
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <section class="stats-grid">
+            <div class="stat-card receivable">
+                <div class="stat-header">
+                    <span class="stat-title">A Receber na Semana</span>
+                    <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                </div>
+                <div class="stat-value">R$ 142.850,00</div>
+                <div class="stat-meta">
+                    <span class="badge-trend trend-up"><i class="fa-solid fa-arrow-up"></i> +12%</span>
+                    <span>vs. semana anterior</span>
+                </div>
+            </div>
+
+            <div class="stat-card payable">
+                <div class="stat-header">
+                    <span class="stat-title">A Pagar na Semana</span>
+                    <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
+                </div>
+                <div class="stat-value">R$ 87.420,00</div>
+                <div class="stat-meta">
+                    <span class="badge-trend trend-down"><i class="fa-solid fa-arrow-down"></i> -5%</span>
+                    <span>vs. semana anterior</span>
+                </div>
+            </div>
+
+            <div class="stat-card balance">
+                <div class="stat-header">
+                    <span class="stat-title">Saldo Previsto (Semana)</span>
+                    <div class="stat-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                </div>
+                <div class="stat-value" style="color: var(--beto-blue);">+ R$ 55.430,00</div>
+                <div class="stat-meta">
+                    <span style="color: var(--success); font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Superávit projetado</span>
+                </div>
+            </div>
+
+            <div class="stat-card pending">
+                <div class="stat-header">
+                    <span class="stat-title">Vencendo Hoje (26/Ago)</span>
+                    <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                </div>
+                <div class="stat-value">R$ 18.230,00</div>
+                <div class="stat-meta">
+                    <span style="color: #b45309; font-weight: 600;">3 boletos de fornecedores</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts & Mini Insights -->
+        <section class="grid-2col">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-chart-column"></i> Evolução Diária da Semana (Receber vs. Pagar)</h3>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Valores em R$ (Milhares)</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-calendar-check"></i> Resumo por Dia</h3>
+                </div>
+                <div class="daily-list">
+                    <div class="daily-item">
+                        <span class="day-label">Segunda (24/08)</span>
+                        <div class="day-flow">
+                            <span class="flow-rec">+R$ 28.500</span> / <span class="flow-pay">-R$ 14.200</span>
+                        </div>
+                    </div>
+                    <div class="daily-item">
+                        <span class="day-label">Terça (25/08)</span>
+                        <div class="day-flow">
+                            <span class="flow-rec">+R$ 19.300</span> / <span class="flow-pay">-R$ 8.900</span>
+                        </div>
+                    </div>
+                    <div class="daily-item" style="background: #eff6ff; border-color: #bfdbfe;">
+                        <span class="day-label">Hoje • Quarta (26/08)</span>
+                        <div class="day-flow">
+                            <span class="flow-rec">+R$ 31.200</span> / <span class="flow-pay">-R$ 18.230</span>
+                        </div>
+                    </div>
+                    <div class="daily-item">
+                        <span class="day-label">Quinta (27/08)</span>
+                        <div class="day-flow">
+                            <span class="flow-rec">+R$ 22.400</span> / <span class="flow-pay">-R$ 19.800</span>
+                        </div>
+                    </div>
+                    <div class="daily-item">
+                        <span class="day-label">Sexta (28/08)</span>
+                        <div class="day-flow">
+                            <span class="flow-rec">+R$ 41.450</span> / <span class="flow-pay">-R$ 26.290</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Lists (Payables vs Receivables) -->
+        <section class="tables-grid">
+            <!-- Contas a Pagar na Semana -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-arrow-circle-down" style="color: var(--danger);"></i> Contas a Pagar da Semana</h3>
+                    <a href="#" style="font-size: 0.8rem; color: var(--beto-blue); text-decoration: none; font-weight: 600;">Ver todos (8)</a>
+                </div>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Favorecido / Categoria</th>
+                            <th>Vencimento</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="entity-info">
+                                    <span class="entity-name">Distribuidora Mueller Eletro</span>
+                                    <span class="entity-desc">Estoque / Fogões e Lavadoras</span>
+                                </div>
+                            </td>
+                            <td><strong>Hoje (26/08)</strong></td>
+                            <td style="font-weight: 700; color: var(--danger);">R$ 12.450,00</td>
+                            <td><span class="tag-status status-vence-hoje">Vence Hoje</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="entity-info">
+                                    <span class="entity-name">Enel Distribuição SP</span>
+                                    <span class="entity-desc">Energia / Despesas Operacionais</span>
+                                </div>
+                            </td>
+                            <td><strong>Hoje (26/08)</strong></td>
+                            <td style="font-weight: 700; color: var(--danger);">R$ 5.780,00</td>
+                            <td><span class="tag-status status-vence-hoje">Vence Hoje</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="entity-info">
+                                    <span class="entity-name">Móveis Kappesberg S/A</span>
+                                    <span class="entity-desc">Estoque Dormitórios</span>
+                                </div>
+                            </td>
+                            <td>27/08 (Qui)</td>
+                            <td style="font-weight: 700; color: var(--danger);">R$ 19.800,00</td>
+                            <td><span class="tag-status status-aberto">Aberto</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="entity-info">
+                                    <span class="entity-name">Folha de Adiantamento / 13º</span>
+                                    <span class="entity-desc">Equipe de Vendas</span>
+                                </div>
+                            </td>
+                            <td>28/08 (Sex)</td>
+                            <td style="font-weight: 700; color: var(--danger);">R$ 26.290,00</td>
+                            <td><span class="tag-status status-aberto">Aberto</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Contas a Receber na Semana -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-arrow-circle-up" style="color: var(--success);"></i> Contas a Receber da Semana</h3>
+                    <a href="#" style="font-size: 0.8rem; color: var(--beto-blue); text-decoration: none; font-weight: 600;">Ver todos (14)</a>
+                </div>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Cliente / Origem</th>
+                            <th>Previsão</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="entity-info">
+                                    <span class="entity-name">Cielo / Rede (Cartões Crédito)</span>
+                                    <span class="entity-desc">Repasse Parcelado Quinzena</span>
+                                </div>
+                            </td>
+                            <td><strong>Hoje (26/08)</strong></td>
+                            <td style="font-weight: 700; color: var(--success);">R$ 31.200,00</td>
+                            <td><span class="tag-status status-recebido">Agendado</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="entity-info">
+                                    <span class="entity-name">Carnê Lojas Beto (Lote 12)</span>
+                                    <span class="entity-desc">Recebimentos Balcão</span>
+                                </div>
+                            </td>
+                            <td>27/08 (Qui)</td>
+                            <td style="font-weight: 700; color: var(--success);">R$ 22.400,00</td>
+                            <td><span class="tag-status status-aberto">Aberto</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="entity-info">
+                                    <span class="entity-name">Vendas Online / WhatsApp</span>
+                                    <span class="entity-desc">PIX e Boletos compensados</span>
+                                </div>
+                            </td>
+                            <td>28/08 (Sex)</td>
+                            <td style="font-weight: 700; color: var(--success);">R$ 24.150,00</td>
+                            <td><span class="tag-status status-aberto">Aberto</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="entity-info">
+                                    <span class="entity-name">Parceria Financeira Losango</span>
+                                    <span class="entity-desc">Comissão Financiamentos</span>
+                                </div>
+                            </td>
+                            <td>28/08 (Sex)</td>
+                            <td style="font-weight: 700; color: var(--success);">R$ 17.300,00</td>
+                            <td><span class="tag-status status-aberto">Aberto</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Demonstration -->
+    <div class="modal" id="entryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Novo Lançamento</h3>
+                <button onclick="closeModal()" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Descrição / Favorecido</label>
+                <input type="text" class="form-control" placeholder="Ex: Fornecedor ABC ou Cliente XYZ">
+            </div>
+            <div class="form-group">
+                <label>Valor (R$)</label>
+                <input type="text" class="form-control" placeholder="0,00">
+            </div>
+            <div class="form-group">
+                <label>Data de Vencimento</label>
+                <input type="date" class="form-control" value="2026-08-26">
+            </div>
+            <div class="form-group">
+                <label>Forma / Categoria</label>
+                <select class="form-control">
+                    <option>Fornecedor de Mercadoria</option>
+                    <option>Despesa Operacional / Fixa</option>
+                    <option>Cartão de Crédito / Débito</option>
+                    <option>Carnê / Crediário Próprio</option>
+                </select>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:20px;">
+                <button class="btn" style="background:#e2e8f0; color:#333;" onclick="closeModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveSimulatedEntry()">Salvar no Painel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js Setup
+        const ctx = document.getElementById('weeklyChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Seg (24/08)', 'Ter (25/08)', 'Qua (26/08)', 'Qui (27/08)', 'Sex (28/08)', 'Sáb (29/08)'],
+                datasets: [
+                    {
+                        label: 'A Receber (R$)',
+                        data: [28.5, 19.3, 31.2, 22.4, 41.45, 15.0],
+                        backgroundColor: '#10b981',
+                        borderRadius: 6,
+                    },
+                    {
+                        label: 'A Pagar (R$)',
+                        data: [14.2, 8.9, 18.23, 19.8, 26.29, 5.0],
+                        backgroundColor: '#ef4444',
+                        borderRadius: 6,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: { family: "'Plus Jakarta Sans', sans-serif", weight: '600' }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': R$ ' + (context.raw * 1000).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + value + 'k';
+                            }
+                        },
+                        grid: {
+                            color: '#f1f5f9'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Modal triggers
+        function openModal(type) {
+            const title = document.getElementById('modalTitle');
+            if (type === 'pagar') {
+                title.innerText = 'Nova Conta a Pagar';
+                title.style.color = '#ef4444';
+            } else {
+                title.innerText = 'Novo Valor a Receber';
+                title.style.color = '#10b981';
+            }
+            document.getElementById('entryModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('entryModal').style.display = 'none';
+        }
+
+        function saveSimulatedEntry() {
+            alert('Lançamento registrado com sucesso no painel de demonstração!');
+            closeModal();
+        }
+    </script>
+</body>
+</html>
