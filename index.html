@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lojas Beto - Inteligência Comercial & TOTVS Moda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-[#F1F5F9] text-slate-800 antialiased min-h-screen flex flex-col md:flex-row">
+
+  <!-- Sidebar (Web) -->
+  <aside class="w-full md:w-64 bg-[#0A192F] text-white flex-shrink-0 flex flex-col justify-between p-5 hidden md:flex min-h-screen">
+    <div>
+      <div class="flex items-center gap-3 mb-8">
+        <div class="bg-amber-400 text-slate-900 font-extrabold px-3 py-1.5 rounded-lg text-lg tracking-wider">
+          LB
+        </div>
+        <div>
+          <h1 class="font-bold leading-tight">Lojas Beto</h1>
+          <span class="text-xs text-slate-400">TOTVS Moda Conectado</span>
+        </div>
+      </div>
+
+      <nav class="space-y-1.5">
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-amber-400 text-slate-900 font-semibold shadow-sm transition">
+          <i class="fa-solid fa-chart-pie"></i> Visão Geral Vendas
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-store"></i> Performance por Loja
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-shirt"></i> Curva ABC de Produtos
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-clock"></i> Vendas por Horário
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 transition">
+          <i class="fa-solid fa-calculator"></i> Margem & DRE
+        </a>
+      </nav>
+    </div>
+
+    <div class="pt-4 border-t border-slate-800">
+      <div class="p-3 bg-slate-800/80 rounded-xl flex items-center gap-3 border border-slate-700">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+        <div>
+          <p class="text-xs text-slate-400">Sync Python ERP</p>
+          <p class="text-xs font-semibold text-emerald-300">Tempo Real: Ativo</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile Top Bar -->
+  <header class="md:hidden bg-[#0A192F] text-white p-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
+    <div class="flex items-center gap-2">
+      <span class="bg-amber-400 text-slate-900 font-extrabold px-2 py-0.5 rounded text-sm">LB</span>
+      <span class="font-bold text-sm">Lojas Beto • Live</span>
+    </div>
+    <span class="text-xs px-2 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-700">
+      <i class="fa-solid fa-circle text-[8px] mr-1"></i> TOTVS Live
+    </span>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-4 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
+    
+    <!-- Top Stats Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">Cockpit Executivo de Vendas</h2>
+        <p class="text-xs md:text-sm text-slate-500">Consolidado da rede em tempo real via TOTVS Moda</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-semibold bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm">
+          Hoje, 28/Ago
+        </span>
+        <button class="bg-[#0A192F] text-white text-xs font-semibold px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-800 shadow-sm transition">
+          <i class="fa-solid fa-arrows-rotate"></i> Atualizar
+        </button>
+      </div>
+    </div>
+
+    <!-- AI Diagnostic Card -->
+    <div class="bg-gradient-to-r from-violet-900 via-indigo-900 to-slate-900 rounded-2xl p-4 md:p-6 text-white shadow-lg border border-indigo-700/40 relative overflow-hidden">
+      <div class="flex items-start gap-4">
+        <div class="p-3 bg-amber-400 text-slate-900 rounded-xl text-xl shrink-0 shadow-md">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xs uppercase tracking-wider font-extrabold text-amber-300">Diagnóstico IA & Python</span>
+            <span class="text-[10px] bg-indigo-800 text-indigo-200 px-2 py-0.5 rounded-full">Análise Preditiva</span>
+          </div>
+          <p class="text-sm md:text-base text-slate-100 font-medium leading-relaxed">
+            Pico de vendas detectado na <strong class="text-amber-300">Loja Centro</strong> entre 12h e 14h impulsionado pela linha de <em>Jeans Slim</em>. Projeção de superação da meta semanal em <strong class="text-emerald-400">+14.2%</strong> se mantido o ritmo.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-2">
+            <button class="text-xs bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-lg font-semibold transition">
+              Simular reposição de estoque
+            </button>
+            <button class="text-xs bg-amber-400 text-slate-900 hover:bg-amber-300 px-3 py-1.5 rounded-lg font-bold transition">
+              Ver análise detalhada
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Grid -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold">Vendas Hoje</span>
+          <i class="fa-solid fa-cash-register text-emerald-500"></i>
+        </div>
+        <p class="text-lg md:text-2xl font-black text-slate-900">R$ 48.920</p>
+        <span class="text-[11px] font-bold text-emerald-600 flex items-center gap-1 mt-1">
+          <i class="fa-solid fa-arrow-trend-up"></i> +18% vs semana passada
+        </span>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold">Lucro Bruto Estimado</span>
+          <i class="fa-solid fa-percent text-blue-500"></i>
+        </div>
+        <p class="text-lg md:text-2xl font-black text-slate-900">R$ 21.520</p>
+        <span class="text-[11px] font-semibold text-slate-500">Margem Média: <strong>44%</strong></span>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold">Ticket Médio</span>
+          <i class="fa-solid fa-receipt text-indigo-500"></i>
+        </div>
+        <p class="text-lg md:text-2xl font-black text-slate-900">R$ 189,40</p>
+        <span class="text-[11px] font-bold text-emerald-600 flex items-center gap-1 mt-1">
+          <i class="fa-solid fa-arrow-trend-up"></i> +4.5% vs meta
+        </span>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold">Peças Vendidas (PA)</span>
+          <i class="fa-solid fa-tags text-amber-500"></i>
+        </div>
+        <p class="text-lg md:text-2xl font-black text-slate-900">2,41 Peças</p>
+        <span class="text-[11px] font-semibold text-slate-500">258 atendimentos</span>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Hourly Performance Chart -->
+      <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="font-bold text-slate-800">Fluxo & Vendas por Horário</h3>
+            <p class="text-xs text-slate-400">Identificação de horários de pico em toda a rede</p>
+          </div>
+          <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md font-semibold">Todas as lojas</span>
+        </div>
+        <div class="h-64">
+          <canvas id="hourlyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Store Comparison -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-slate-800">Vendas por Loja</h3>
+            <span class="text-xs text-slate-400">Hoje</span>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span>Loja 01 - Centro</span>
+                <span class="text-slate-900">R$ 19.450 (112% da meta)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span>Loja 02 - Shopping Norte</span>
+                <span class="text-slate-900">R$ 15.120 (91% da meta)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div class="bg-amber-400 h-full rounded-full" style="width: 91%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span>Loja 03 - Galeria Sul</span>
+                <span class="text-slate-900">R$ 8.900 (78% da meta)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div class="bg-rose-400 h-full rounded-full" style="width: 78%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span>Loja 04 - Outlet</span>
+                <span class="text-slate-900">R$ 5.450 (85% da meta)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div class="bg-indigo-400 h-full rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 mt-4 text-center">
+          <p class="text-xs text-slate-500">Total Faturado Hoje: <strong class="text-slate-800">R$ 48.920,00</strong></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Top Products Table -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-slate-800">Top Produtos Mais Vendidos (Curva A)</h3>
+          <p class="text-xs text-slate-400">Classificação por volume e margem de contribuição</p>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs md:text-sm">
+          <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100">
+            <tr>
+              <th class="py-3 px-4">Referência / Produto</th>
+              <th class="py-3 px-4">Qtd Vendida</th>
+              <th class="py-3 px-4">Faturamento</th>
+              <th class="py-3 px-4">Margem Real</th>
+              <th class="py-3 px-4">Status Estoque</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td class="py-3 px-4 font-semibold text-slate-900 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Calça Jeans Slim Fit Stretch
+              </td>
+              <td class="py-3 px-4 font-bold">142 un</td>
+              <td class="py-3 px-4">R$ 25.560,00</td>
+              <td class="py-3 px-4 text-emerald-600 font-bold">52.3%</td>
+              <td class="py-3 px-4"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs font-semibold">Saudável</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-slate-900 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Camiseta Básica Algodão Egípcio
+              </td>
+              <td class="py-3 px-4 font-bold">98 un</td>
+              <td class="py-3 px-4">R$ 8.722,00</td>
+              <td class="py-3 px-4 text-emerald-600 font-bold">48.1%</td>
+              <td class="py-3 px-4"><span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs font-semibold">Atenção (3 dias)</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold text-slate-900 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Vestido Midi Linho Floral
+              </td>
+              <td class="py-3 px-4 font-bold">45 un</td>
+              <td class="py-3 px-4">R$ 10.350,00</td>
+              <td class="py-3 px-4 text-emerald-600 font-bold">56.0%</td>
+              <td class="py-3 px-4"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs font-semibold">Saudável</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Gráfico de Horário (Chart.js)
+    const ctx = document.getElementById('hourlyChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['09h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h'],
+        datasets: [{
+          label: 'Faturamento (R$)',
+          data: [1200, 2800, 4900, 8400, 7100, 4300, 3900, 5200, 6800, 8900, 4200, 1220],
+          borderColor: '#4F46E5',
+          backgroundColor: 'rgba(79, 70, 229, 0.08)',
+          fill: true,
+          tension: 0.4,
+          borderWidth: 3,
+          pointRadius: 4,
+          pointBackgroundColor: '#4F46E5'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: '#F1F5F9' }, ticks: { callback: v => 'R$' + v } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
